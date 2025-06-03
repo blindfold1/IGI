@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Услуги - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Список услуг</h1>
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="q" class="form-control" placeholder="Поиск по названию" value="{{ query }}">
+        </div>
+        <div class="col-md-4">
+            <select name="sort" class="form-select">
+                <option value="name" {% if sort == 'name' %}selected{% endif %}>Сортировать по названию</option>
+                <option value="price" {% if sort == 'price' %}selected{% endif %}>Сортировать по цене</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Категория</th>
+                <th>Описание</th>
+                <th>Цена (BYN)</th>
+                <th>Добавлено</th>
+                <th>Изменено</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+            <tr>
+                <td>{{ service.name }}</td>
+                <td>{{ service.category }}</td>
+                <td>{{ service.description }}</td>
+                <td>{{ service.price }}</td>
+                <td>{% if service.created_at %}{{ service.created_at|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
+                <td>{% if service.updated_at %}{{ service.updated_at|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">Нет услуг по вашему запросу.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 

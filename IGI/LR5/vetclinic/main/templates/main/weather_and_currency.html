@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Погода и курсы валют{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Погода и курсы валют</h1>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Погода в Минске</h5>
+                    {% if weather.error %}
+                        <div class="alert alert-danger">Ошибка: {{ weather.error }}</div>
+                    {% else %}
+                        <p>Температура: <strong>{{ weather.temperature }}°C</strong></p>
+                        <p>Ветер: <strong>{{ weather.windspeed }} м/с</strong></p>
+                        <p>Код погоды: <strong>{{ weather.weathercode }}</strong></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Курсы валют (USD)</h5>
+                    {% if currency.error %}
+                        <div class="alert alert-danger">Ошибка: {{ currency.error }}</div>
+                    {% else %}
+                        <ul class="list-unstyled">
+                            <li>BYN: <strong>{{ currency.BYN }}</strong></li>
+                            <li>EUR: <strong>{{ currency.EUR }}</strong></li>
+                            <li>RUB: <strong>{{ currency.RUB }}</strong></li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

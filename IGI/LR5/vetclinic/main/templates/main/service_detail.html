@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ service.name }} - Услуги{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Хлебные крошки -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'service_list' %}">Услуги</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ service.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Заголовок и метаданные -->
+            <div class="mb-4">
+                <h1 class="display-5 fw-bold">{{ service.name }}</h1>
+                <div class="text-muted mb-3">
+                    <small>
+                        <i class="bi bi-tag"></i> {{ service.category.name }}
+                        <span class="ms-3">
+                            <i class="bi bi-currency-dollar"></i> {{ service.price }} руб.
+                        </span>
+                    </small>
+                </div>
+            </div>
+
+            <!-- Изображение -->
+            {% if service.image %}
+            <div class="mb-4">
+                <img src="{{ service.image.url }}" alt="{{ service.name }}" class="img-fluid rounded">
+            </div>
+            {% endif %}
+
+            <!-- Описание -->
+            <div class="service-description mb-4">
+                {{ service.description|linebreaks }}
+            </div>
+
+            <!-- Кнопка записи -->
+            <div class="mb-4">
+                <a href="{% url 'appointment_create' %}?service={{ service.pk }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-calendar-plus"></i> Записаться на приём
+                </a>
+            </div>
+        </div>
+
+        <!-- Боковая панель -->
+        <div class="col-lg-4">
+            <!-- Похожие услуги -->
+            {% if related_services %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Похожие услуги</h5>
+                    <div class="list-group list-group-flush">
+                        {% for related in related_services %}
+                        <a href="{% url 'service_detail' related.pk %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ related.name }}</h6>
+                                <small class="text-muted">{{ related.price }} руб.</small>
+                            </div>
+                            <small class="text-muted">{{ related.category.name }}</small>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Информация о категории -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">О категории</h5>
+                    <p class="card-text">{{ service.category.description|default:"Нет описания категории" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

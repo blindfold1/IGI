@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить питомца{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Добавить питомца</h1>
+    {% if messages %}
+    <div class="mb-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Кличка *</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="species" class="form-label">Вид *</label>
+            <input type="text" class="form-control" id="species" name="species" required>
+        </div>
+        <div class="mb-3">
+            <label for="breed" class="form-label">Порода</label>
+            <input type="text" class="form-control" id="breed" name="breed">
+        </div>
+        <div class="mb-3">
+            <label for="birth_date" class="form-label">Дата рождения *</label>
+            <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить питомца</button>
+    </form>
+</div>
+{% endblock %} 

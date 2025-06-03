@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Акции - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Акции и специальные предложения</h1>
+
+    <div class="row">
+        {% for promo in promos %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ promo.code }}</h5>
+                    <p class="card-text">
+                        <strong>Скидка:</strong> {{ promo.discount }}%<br>
+                        <strong>Действует до:</strong> {{ promo.valid_until|date:"d.m.Y" }}
+                    </p>
+                    {% if promo.is_active %}
+                    <span class="badge bg-success">Активен</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Неактивен</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                В данный момент нет активных акций.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

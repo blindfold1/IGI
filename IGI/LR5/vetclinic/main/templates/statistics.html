@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% block title %}Статистика - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-5">Статистика клиники</h1>
+
+    <!-- Общая статистика -->
+    <div class="row mb-5">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="bi bi-people-fill display-1 text-primary"></i>
+                    <h3 class="card-title">{{ total_clients }}</h3>
+                    <p class="card-text">Всего клиентов</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="bi bi-heart-pulse-fill display-1 text-primary"></i>
+                    <h3 class="card-title">{{ total_pets }}</h3>
+                    <p class="card-text">Всего питомцев</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="bi bi-calendar-check-fill display-1 text-primary"></i>
+                    <h3 class="card-title">{{ total_appointments }}</h3>
+                    <p class="card-text">Всего записей</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="bi bi-star-fill display-1 text-primary"></i>
+                    <h3 class="card-title">{{ avg_rating|floatformat:1 }}</h3>
+                    <p class="card-text">Средний рейтинг</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Графики -->
+    <div class="row mb-5">
+        <!-- График популярных услуг -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Популярные услуги</h5>
+                    <canvas id="servicesChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- График записей по дням -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Записи по дням недели</h5>
+                    <canvas id="appointmentsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- График видов животных -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Виды животных</h5>
+                    <canvas id="petsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- График рейтингов -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Распределение рейтингов</h5>
+                    <canvas id="ratingsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Данные для графиков
+    const servicesData = {
+        labels: {{ popular_services|safe }}.map(s => s.name),
+        datasets: [{
+            label: 'Количество записей',
+            data: {{ popular_services|safe }}.map(s => s.count),
+            backgroundColor: [
+                'rgba(74, 144, 226, 0.8)',
+                'rgba(243, 156, 18, 0.8)',
+                'rgba(46, 204, 113, 0.8)',
+                'rgba(155, 89, 182, 0.8)',
+                'rgba(231, 76, 60, 0.8)'
+            ]
+        }]
+    };
+
+    const appointmentsData = {
+        labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+        datasets: [{
+            label: 'Количество записей',
+            data: {{ appointments_by_day|safe }},
+            borderColor: 'rgba(74, 144, 226, 1)',
+            backgroundColor: 'rgba(74, 144, 226, 0.2)',
+            tension: 0.4
+        }]
+    };
+
+    const petsData = {
+        labels: {{ pets_by_species|safe }}.map(p => p.species),
+        datasets: [{
+            data: {{ pets_by_species|safe }}.map(p => p.count),
+            backgroundColor: [
+                'rgba(74, 144, 226, 0.8)',
+                'rgba(243, 156, 18, 0.8)',
+                'rgba(46, 204, 113, 0.8)',
+                'rgba(155, 89, 182, 0.8)'
+            ]
+        }]
+    };
+
+    const ratingsData = {
+        labels: ['1', '2', '3', '4', '5'],
+        datasets: [{
+            label: 'Количество отзывов',
+            data: {{ ratings_distribution|safe }},
+            backgroundColor: 'rgba(74, 144, 226, 0.8)'
+        }]
+    };
+
+    // Создание графиков
+    new Chart(document.getElementById('servicesChart'), {
+        type: 'bar',
+        data: servicesData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('appointmentsChart'), {
+        type: 'line',
+        data: appointmentsData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('petsChart'), {
+        type: 'pie',
+        data: petsData,
+        options: {
+            responsive: true
+        }
+    });
+
+    new Chart(document.getElementById('ratingsChart'), {
+        type: 'bar',
+        data: ratingsData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %} 

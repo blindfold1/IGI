@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактировать профиль - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Редактировать профиль</h1>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="address" class="form-label">Адрес</label>
+            <input type="text" class="form-control" id="address" name="address" value="{{ client.address }}" required minlength="5" maxlength="255">
+            <div class="invalid-feedback">Пожалуйста, введите адрес (минимум 5 символов).</div>
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Телефон</label>
+            <input type="tel" class="form-control" id="phone" name="phone" value="{{ client.phone }}" required pattern="\+375 \(\d{2}\) \d{3}-\d{2}-\d{2}" placeholder="+375 (29) 123-45-67">
+            <div class="invalid-feedback">Формат: +375 (29) XXX-XX-XX</div>
+        </div>
+        <div class="mb-3">
+            <label for="birth_date" class="form-label">Дата рождения</label>
+            <input type="date" class="form-control" id="birth_date" name="birth_date" value="{{ client.birth_date }}" required min="1900-01-01" max="{{ "now"|date:"Y-m-d" }}">
+            <div class="invalid-feedback">Пожалуйста, выберите корректную дату рождения.</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+<script>
+// Bootstrap 5 client-side validation
+(function () {
+  'use strict';
+  var forms = document.querySelectorAll('form');
+  Array.prototype.slice.call(forms).forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
+</script>
+{% endblock %} 

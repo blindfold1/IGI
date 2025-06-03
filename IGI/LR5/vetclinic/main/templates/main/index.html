@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Забота о ваших питомцах</h1>
+                <p class="lead mb-4">Профессиональная ветеринарная помощь с любовью и заботой. Мы работаем 24/7 для здоровья ваших животных.</p>
+                <a href="{% url 'appointment_create' %}" class="btn btn-primary btn-lg">Записаться на приём</a>
+            </div>
+            <!-- <div class="col-lg-6">
+                <img src="/static/img/clinic-reception.jpg" alt="Ветеринарная клиника" class="img-fluid rounded shadow">
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <h2 class="text-center mb-5">Наши преимущества</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-heart-pulse text-primary display-4 mb-3"></i>
+                    <h3 class="h5">Профессиональная помощь</h3>
+                    <p class="text-muted">Опытные ветеринары и современное оборудование</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-clock text-primary display-4 mb-3"></i>
+                    <h3 class="h5">Работаем 24/7</h3>
+                    <p class="text-muted">Готовы помочь в любое время дня и ночи</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-geo-alt text-primary display-4 mb-3"></i>
+                    <h3 class="h5">Удобное расположение</h3>
+                    <p class="text-muted">Находимся в центре города с парковкой</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Кнопки разделов -->
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-2 mb-3">
+            <a href="{% url 'reviews' %}" class="btn btn-outline-primary w-100 py-3">Отзывы</a>
+        </div>
+        <div class="col-md-2 mb-3">
+            <a href="{% url 'contacts' %}" class="btn btn-outline-primary w-100 py-3">Контакты</a>
+        </div>
+        <div class="col-md-2 mb-3">
+            <a href="{% url 'promos' %}" class="btn btn-outline-primary w-100 py-3">Промокоды</a>
+        </div>
+        <div class="col-md-2 mb-3">
+            <a href="{% url 'vacancies' %}" class="btn btn-outline-primary w-100 py-3">Вакансии</a>
+        </div>
+        <div class="col-md-2 mb-3">
+            <a href="{% url 'faq' %}" class="btn btn-outline-primary w-100 py-3">Словарь терминов</a>
+        </div>
+        <div class="col-md-2 mb-3">
+            <a href="{% url 'about' %}" class="btn btn-outline-primary w-100 py-3">О компании</a>
+        </div>
+        <div class="col-md-2 mb-3">
+            <a href="{% url 'privacy' %}" class="btn btn-outline-primary w-100 py-3">Политика конфиденциальности</a>
+        </div>
+    </div>
+</div>
+
+<!-- Services Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Наши услуги</h2>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-clipboard2-pulse text-primary display-4 mb-3"></i>
+                        <h3 class="h5">Диагностика</h3>
+                        <p class="text-muted">Современное оборудование для точной диагностики</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-droplet text-primary display-4 mb-3"></i>
+                        <h3 class="h5">Вакцинация</h3>
+                        <p class="text-muted">Профилактика заболеваний с помощью вакцин</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-scissors text-primary display-4 mb-3"></i>
+                        <h3 class="h5">Хирургия</h3>
+                        <p class="text-muted">Современные хирургические вмешательства</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-capsule text-primary display-4 mb-3"></i>
+                        <h3 class="h5">Терапия</h3>
+                        <p class="text-muted">Лечение различных заболеваний</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- News Section -->
+<div class="container py-5">
+    <h2 class="text-center mb-5">Последние новости</h2>
+    <div class="row g-4">
+        {% for news in latest_news %}
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                {% if news.image %}
+                <img src="{{ news.image.url }}" class="card-img-top" alt="{{ news.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                {% if forloop.counter == 1 %}
+                <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="{{ news.title }}" style="height: 200px; object-fit: cover;">
+                {% elif forloop.counter == 2 %}
+                <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="{{ news.title }}" style="height: 200px; object-fit: cover;">
+                {% elif forloop.counter == 3 %}
+                <img src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="{{ news.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                {% with random_photo=forloop.counter|add:10 %}
+                    {% if random_photo|divisibleby:3 %}
+                    <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="{{ news.title }}" style="height: 200px; object-fit: cover;">
+                    {% elif random_photo|divisibleby:2 %}
+                    <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="{{ news.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="{{ news.title }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                {% endwith %}
+                {% endif %}
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ news.title }}</h5>
+                    <p class="card-text">{{ news.content|truncatewords:30 }}</p>
+                    <a href="{% url 'news_detail' news.pk %}" class="btn btn-primary">Читать далее</a>
+                </div>
+                <div class="card-footer text-muted">
+                    {{ news.published_at|date:"d.m.Y" }}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">Новостей пока нет</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'news_list' %}" class="btn btn-primary">Все новости</a>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="bg-primary text-white py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Запишитесь на приём прямо сейчас!</h2>
+        <p class="lead mb-4">Наши специалисты готовы помочь вашему питомцу</p>
+        <a href="{% url 'appointment_create' %}" class="btn btn-light btn-lg">Записаться</a>
+    </div>
+</div>
+{% endblock %} 

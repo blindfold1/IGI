@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Питомцы - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Список животных</h1>
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="q" class="form-control" placeholder="Поиск по кличке, виду, породе или владельцу" value="{{ query }}">
+        </div>
+        <div class="col-md-4">
+            <select name="sort" class="form-select">
+                <option value="name" {% if sort == 'name' %}selected{% endif %}>Сортировать по кличке</option>
+                <option value="birth_date" {% if sort == 'birth_date' %}selected{% endif %}>Сортировать по дате рождения</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Кличка</th>
+                <th>Вид</th>
+                <th>Порода</th>
+                <th>Владелец</th>
+                <th>Дата рождения</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pet in pets %}
+            <tr>
+                <td>{{ pet.name }}</td>
+                <td>{{ pet.species }}</td>
+                <td>{{ pet.breed }}</td>
+                <td>{{ pet.client.user.get_full_name }}</td>
+                <td>{{ pet.birth_date|date:"d.m.Y" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">Нет животных по вашему запросу.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 

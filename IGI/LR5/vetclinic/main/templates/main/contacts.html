@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Контакты{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Наши контакты</h1>
+    
+    <div class="row">
+        {% for contact in contact_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm text-center">
+                {% if contact.photo %}
+                <img src="{{ contact.photo.url }}" class="card-img-top mx-auto" alt="{{ contact.name }}" style="height: 250px; width: 250px; object-fit: cover; border-radius: 50%; margin-top: 20px;">
+                {% else %}
+                <img src="https://randomuser.me/api/portraits/med/men/{{ forloop.counter|add:10 }}.jpg" class="card-img-top mx-auto" alt="{{ contact.name }}" style="height: 250px; width: 250px; object-fit: cover; border-radius: 50%; margin-top: 20px;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ contact.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ contact.position }}</h6>
+                    <p class="card-text small text-muted">{{ contact.description|truncatewords:20 }}</p>
+                    <div class="mb-2">
+                        <span class="badge bg-primary"><i class="bi bi-telephone"></i> {{ contact.phone }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">Информация о сотрудниках пока не добавлена</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}Информация - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-5">Информация</h1>
+
+    <!-- Погода -->
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Погода в Минске</h5>
+                    <div class="d-flex align-items-center">
+                        <img src="https://open-meteo.com/img/weather-icons/{{ weather.weathercode }}.svg" alt="Погода" class="me-3" style="width: 100px;">
+                        <div>
+                            <h3 class="mb-0">{{ weather.temperature }}°C</h3>
+                            <p class="mb-0">{{ weather.description }}</p>
+                            <small>Влажность: {{ weather.humidity }}%</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Курсы валют -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Курсы валют</h5>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Валюта</th>
+                                    <th>Курс</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for currency in currencies %}
+                                <tr>
+                                    <td>{{ currency.code }}</td>
+                                    <td>{{ currency.rate }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- О клинике -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">О нашей клинике</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="https://images.pexels.com/photos/1458925/pexels-photo-1458925.jpeg" class="img-fluid rounded mb-3" alt="Клиника">
+                            <p>Наша ветеринарная клиника предоставляет полный спектр услуг для ваших питомцев. Мы заботимся о здоровье животных с 2010 года.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Наши преимущества:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Опытные врачи</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Современное оборудование</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Круглосуточная помощь</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Доступные цены</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Наши врачи -->
+    {# Блок с врачами временно убран по требованию пользователя #}
+
+    <!-- Наши питомцы -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h5 class="mb-4">Наши питомцы</h5>
+            <div class="row">
+                {% for pet in pets %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        {% if pet.image %}
+                            <img src="{{ pet.image.url }}" class="card-img-top" alt="{{ pet.name }}" style="height: 300px; object-fit: cover;">
+                        {% elif pet.species|lower == 'кошка' %}
+                            <img src="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg" class="card-img-top" alt="{{ pet.name }}" style="height: 300px; object-fit: cover;">
+                        {% elif pet.species|lower == 'собака' %}
+                            <img src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg" class="card-img-top" alt="{{ pet.name }}" style="height: 300px; object-fit: cover;">
+                        {% elif pet.species|lower == 'крыса' %}
+                            <img src="https://images.pexels.com/photos/301448/pexels-photo-301448.jpeg" class="card-img-top" alt="{{ pet.name }}" style="height: 300px; object-fit: cover;">
+                        {% elif pet.species|lower == 'шиншилла' %}
+                            <img src="https://images.pexels.com/photos/325490/pexels-photo-325490.jpeg" class="card-img-top" alt="{{ pet.name }}" style="height: 300px; object-fit: cover;">
+                        {% elif pet.species|lower == 'хомяк' %}
+                            <img src="https://images.pexels.com/photos/52500/hamster-rodent-cute-small-52500.jpeg" class="card-img-top" alt="{{ pet.name }}" style="height: 300px; object-fit: cover;">
+                        {% elif pet.species|lower == 'собака' %}
+                            <img src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg" class="card-img-top" alt="{{ pet.name }}" style="height: 300px; object-fit: cover;">
+                        {% elif pet.species|lower == 'фретка' %}
+                            <img src="https://images.pexels.com/photos/326012/pexels-photo-326012.jpeg" class="card-img-top" alt="{{ pet.name }}" style="height: 300px; object-fit: cover;">
+                        {% else %}
+                            <img src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg" class="card-img-top" alt="{{ pet.name }}" style="height: 300px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ pet.name }}</h5>
+                            <p class="card-text">Вид: {{ pet.species }}</p>
+                            <p class="card-text">Порода: {{ pet.breed }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

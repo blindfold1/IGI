@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Вакансии - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Вакансии</h1>
+
+    <div class="row">
+        {% for vacancy in vacancies %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ vacancy.title }}</h5>
+                    <p class="card-text">{{ vacancy.description }}</p>
+                    {% if vacancy.is_active %}
+                    <span class="badge bg-success">Активна</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Закрыта</span>
+                    {% endif %}
+                    <div class="mt-2">
+                        <small class="text-muted">Опубликовано: {{ vacancy.published_at|date:"d.m.Y" }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                В данный момент нет открытых вакансий.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

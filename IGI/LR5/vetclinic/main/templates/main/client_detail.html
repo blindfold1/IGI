@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Личный кабинет</h1>
+
+    {% if messages %}
+    <div class="messages mb-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <!-- Информация о клиенте -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Личные данные</h5>
+                    <p class="card-text">
+                        <strong>ФИО:</strong><br>
+                        {{ client.user.get_full_name }}
+                    </p>
+                    <p class="card-text">
+                        <strong>Email:</strong><br>
+                        {{ client.user.email }}
+                    </p>
+                    <p class="card-text">
+                        <strong>Телефон:</strong><br>
+                        {{ client.phone }}
+                    </p>
+                    <p class="card-text">
+                        <strong>Адрес:</strong><br>
+                        {{ client.address }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Питомцы -->
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Мои питомцы</h5>
+                        <a href="{% url 'pet_create' %}" class="btn btn-sm btn-outline-primary">Добавить питомца</a>
+                    </div>
+                    {% if pets %}
+                    <div class="row">
+                        {% for pet in pets %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ pet.name }}</h6>
+                                    <p class="card-text">
+                                        <strong>Вид:</strong> {{ pet.species }}<br>
+                                        <strong>Порода:</strong> {{ pet.breed }}<br>
+                                        <strong>Дата рождения:</strong> {{ pet.birth_date|date:"d.m.Y" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-muted">У вас пока нет питомцев</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Записи на приём -->
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Записи на приём</h5>
+                    {% if appointments %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Дата</th>
+                                    <th>Питомец</th>
+                                    <th>Врач</th>
+                                    <th>Услуги</th>
+                                    <th>Стоимость</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appointment in appointments %}
+                                <tr>
+                                    <td>{{ appointment.date|date:"d.m.Y H:i" }}</td>
+                                    <td>{{ appointment.pet.name }}</td>
+                                    <td>{{ appointment.doctor.user.get_full_name }}</td>
+                                    <td>
+                                        {% for service in appointment.services.all %}
+                                        {{ service.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ appointment.total_price }} BYN</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">У вас пока нет записей на приём</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

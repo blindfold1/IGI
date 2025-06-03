@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}Панель администратора{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Панель администратора</h1>
+    <div class="mb-4">
+        <a href="/admin/" class="btn btn-dark">Перейти в Django admin</a>
+    </div>
+    <ul class="nav nav-tabs mb-4" id="adminTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="clients-tab" data-bs-toggle="tab" data-bs-target="#clients" type="button" role="tab">Клиенты</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="doctors-tab" data-bs-toggle="tab" data-bs-target="#doctors" type="button" role="tab">Врачи</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pets-tab" data-bs-toggle="tab" data-bs-target="#pets" type="button" role="tab">Питомцы</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="services-tab" data-bs-toggle="tab" data-bs-target="#services" type="button" role="tab">Услуги</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="appointments-tab" data-bs-toggle="tab" data-bs-target="#appointments" type="button" role="tab">Записи</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">Отзывы</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="adminTabContent">
+        <div class="tab-pane fade show active" id="clients" role="tabpanel">
+            <h4>Клиенты</h4>
+            <table class="table table-striped">
+                <thead><tr><th>ФИО</th><th>Телефон</th><th>Email</th><th>Действия</th></tr></thead>
+                <tbody>
+                {% for c in clients %}
+                    <tr>
+                        <td>{{ c.user.get_full_name }}</td>
+                        <td>{{ c.phone }}</td>
+                        <td>{{ c.user.email }}</td>
+                        <td><a href="/admin/main/client/{{ c.id }}/change/" class="btn btn-sm btn-outline-primary">Изменить</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="doctors" role="tabpanel">
+            <h4>Врачи</h4>
+            <table class="table table-striped">
+                <thead><tr><th>ФИО</th><th>Категория</th><th>Отделение</th><th>Действия</th></tr></thead>
+                <tbody>
+                {% for d in doctors %}
+                    <tr>
+                        <td>{{ d.user.get_full_name }}</td>
+                        <td>{{ d.category.name }}</td>
+                        <td>{{ d.department.name }}</td>
+                        <td><a href="/admin/main/doctor/{{ d.id }}/change/" class="btn btn-sm btn-outline-primary">Изменить</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="pets" role="tabpanel">
+            <h4>Питомцы</h4>
+            <table class="table table-striped">
+                <thead><tr><th>Кличка</th><th>Вид</th><th>Порода</th><th>Владелец</th><th>Действия</th></tr></thead>
+                <tbody>
+                {% for p in pets %}
+                    <tr>
+                        <td>{{ p.name }}</td>
+                        <td>{{ p.species }}</td>
+                        <td>{{ p.breed }}</td>
+                        <td>{{ p.client.user.get_full_name }}</td>
+                        <td><a href="/admin/main/pet/{{ p.id }}/change/" class="btn btn-sm btn-outline-primary">Изменить</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="services" role="tabpanel">
+            <h4>Услуги</h4>
+            <table class="table table-striped">
+                <thead><tr><th>Название</th><th>Категория</th><th>Цена</th><th>Действия</th></tr></thead>
+                <tbody>
+                {% for s in services %}
+                    <tr>
+                        <td>{{ s.name }}</td>
+                        <td>{{ s.category }}</td>
+                        <td>{{ s.price }}</td>
+                        <td><a href="/admin/main/service/{{ s.id }}/change/" class="btn btn-sm btn-outline-primary">Изменить</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="appointments" role="tabpanel">
+            <h4>Записи</h4>
+            <table class="table table-striped">
+                <thead><tr><th>Клиент</th><th>Питомец</th><th>Врач</th><th>Дата</th><th>Действия</th></tr></thead>
+                <tbody>
+                {% for a in appointments %}
+                    <tr>
+                        <td>{{ a.client.user.get_full_name }}</td>
+                        <td>{{ a.pet.name }}</td>
+                        <td>{{ a.doctor.user.get_full_name }}</td>
+                        <td>{{ a.date|date:"d.m.Y H:i" }}</td>
+                        <td><a href="/admin/main/appointment/{{ a.id }}/change/" class="btn btn-sm btn-outline-primary">Изменить</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="reviews" role="tabpanel">
+            <h4>Отзывы</h4>
+            <table class="table table-striped">
+                <thead><tr><th>Клиент</th><th>Оценка</th><th>Текст</th><th>Дата</th><th>Действия</th></tr></thead>
+                <tbody>
+                {% for r in reviews %}
+                    <tr>
+                        <td>{{ r.client.user.get_full_name }}</td>
+                        <td>{{ r.rating }}</td>
+                        <td>{{ r.text|truncatewords:10 }}</td>
+                        <td>{{ r.date|date:"d.m.Y" }}</td>
+                        <td><a href="/admin/main/review/{{ r.id }}/change/" class="btn btn-sm btn-outline-primary">Изменить</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    var triggerTabList = [].slice.call(document.querySelectorAll('#adminTab button'));
+    triggerTabList.forEach(function (triggerEl) {
+        var tabTrigger = new bootstrap.Tab(triggerEl);
+        triggerEl.addEventListener('click', function (event) {
+            event.preventDefault();
+            tabTrigger.show();
+        });
+    });
+</script>
+{% endblock %} 
