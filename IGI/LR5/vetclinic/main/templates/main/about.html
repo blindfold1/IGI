@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}О компании{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">О компании</h1>
+    {% if about %}
+        {% if about.logo %}
+        <div class="mb-4 text-center">
+            <img src="{{ about.logo.url }}" alt="Логотип компании" style="max-height:120px; max-width:300px;">
+        </div>
+        {% endif %}
+        <div class="mb-4">
+            {{ about.content|linebreaks }}
+        </div>
+        {% if about.video_url %}
+        <div class="mb-4 text-center">
+            <div class="ratio ratio-16x9">
+                <iframe src="{{ about.video_url }}" title="Видео о компании" allowfullscreen></iframe>
+            </div>
+        </div>
+        {% endif %}
+        {% if about.history.exists %}
+        <div class="mb-4">
+            <h4>История компании по годам</h4>
+            <ul class="list-group">
+                {% for h in about.history.all %}
+                <li class="list-group-item"><b>{{ h.year }}</b>: {{ h.event }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% if about.requisites.exists %}
+        <div class="mb-4">
+            <h4>Реквизиты</h4>
+            <table class="table table-bordered w-auto">
+                <tbody>
+                {% for r in about.requisites.all %}
+                    <tr><th>{{ r.key }}</th><td>{{ r.value }}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        <div class="text-muted mb-2">
+            <small>Последнее обновление: {{ about.updated_at|date:"d.m.Y H:i" }}</small>
+        </div>
+    {% else %}
+        <div class="alert alert-info">Информация о компании пока не добавлена.</div>
+    {% endif %}
+</div>
+{% endblock %} 

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Статистика - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-5">Статистика клиники</h1>
+
+    {% if total_clients or total_pets or total_appointments %}
+        <!-- Общая статистика -->
+        <div class="row mb-5">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-people-fill display-1 text-primary"></i>
+                        <h3 class="card-title">{{ total_clients }}</h3>
+                        <p class="card-text">Всего клиентов</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-heart-pulse-fill display-1 text-primary"></i>
+                        <h3 class="card-title">{{ total_pets }}</h3>
+                        <p class="card-text">Всего питомцев</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-calendar-check-fill display-1 text-primary"></i>
+                        <h3 class="card-title">{{ total_appointments }}</h3>
+                        <p class="card-text">Всего записей</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-star-fill display-1 text-primary"></i>
+                        <h3 class="card-title">{{ avg_rating|floatformat:1 }}</h3>
+                        <p class="card-text">Средний рейтинг</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Популярные услуги -->
+        <div class="mb-5">
+            <h4>Популярные услуги</h4>
+            <table class="table table-bordered">
+                <thead><tr><th>Услуга</th><th>Количество записей</th></tr></thead>
+                <tbody>
+                {% for service in popular_services %}
+                    <tr><td>{{ service.name }}</td><td>{{ service.count }}</td></tr>
+                {% empty %}
+                    <tr><td colspan="2">Нет данных</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Записи по дням недели -->
+        <div class="mb-5">
+            <h4>Записи по дням недели</h4>
+            <table class="table table-bordered">
+                <thead><tr><th>День</th><th>Количество записей</th></tr></thead>
+                <tbody>
+                {% for day, count in appointments_by_day %}
+                    <tr><td>{{ day }}</td><td>{{ count }}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Виды животных -->
+        <div class="mb-5">
+            <h4>Виды животных</h4>
+            <table class="table table-bordered">
+                <thead><tr><th>Вид</th><th>Количество</th></tr></thead>
+                <tbody>
+                {% for pet in pets_by_species %}
+                    <tr><td>{{ pet.species }}</td><td>{{ pet.count }}</td></tr>
+                {% empty %}
+                    <tr><td colspan="2">Нет данных</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Распределение рейтингов -->
+        <div class="mb-5">
+            <h4>Распределение рейтингов</h4>
+            <table class="table table-bordered">
+                <thead><tr><th>Оценка</th><th>Количество отзывов</th></tr></thead>
+                <tbody>
+                {% for rating, count in ratings_distribution %}
+                    <tr><td>{{ rating }}</td><td>{{ count }}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- График популярных услуг -->
+        <div class="mb-5">
+            <h4>Популярные услуги (график)</h4>
+            <img src="data:image/png;base64,{{ services_chart }}" alt="График популярных услуг" class="img-fluid mb-3" style="max-width: 600px;">
+        </div>
+        <!-- График записей по дням недели -->
+        <div class="mb-5">
+            <h4>Записи по дням недели (график)</h4>
+            <img src="data:image/png;base64,{{ appointments_chart }}" alt="График по дням недели" class="img-fluid mb-3" style="max-width: 600px;">
+        </div>
+        <!-- График видов животных -->
+        <div class="mb-5">
+            <h4>Виды животных (график)</h4>
+            <img src="data:image/png;base64,{{ pets_chart }}" alt="График видов животных" class="img-fluid mb-3" style="max-width: 400px;">
+        </div>
+        <!-- График распределения рейтингов -->
+        <div class="mb-5">
+            <h4>Распределение рейтингов (график)</h4>
+            <img src="data:image/png;base64,{{ ratings_chart }}" alt="График рейтингов" class="img-fluid mb-3" style="max-width: 600px;">
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">Нет данных для отображения статистики.</div>
+    {% endif %}
+</div>
+{% endblock %} 

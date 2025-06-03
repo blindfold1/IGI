@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Поиск клиента по телефону{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Поиск клиента по номеру телефона</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Телефон: {{ phone }}</h5>
+            {% if client %}
+                <p><strong>ФИО:</strong> {{ client.user.get_full_name }}</p>
+                <p><strong>Адрес:</strong> {{ client.address }}</p>
+                <p><strong>Дата рождения:</strong> {{ client.birth_date|date:"d.m.Y" }}</p>
+            {% else %}
+                <div class="alert alert-warning">Клиент с таким номером не найден.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

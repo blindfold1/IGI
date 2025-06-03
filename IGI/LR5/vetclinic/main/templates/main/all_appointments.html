@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Все записи на приём{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Все записи на приём</h1>
+    {% if messages %}
+    <div class="mb-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Клиент</th>
+                <th>Питомец</th>
+                <th>Врач</th>
+                <th>Услуги</th>
+                <th>Стоимость</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for a in appointments %}
+            <tr>
+                <td>{{ a.date|date:"d.m.Y H:i" }}</td>
+                <td>{{ a.client.user.get_full_name|default:a.client.user.username }}</td>
+                <td>{{ a.pet.name }}</td>
+                <td>{{ a.doctor.user.get_full_name }}</td>
+                <td>{% for s in a.services.all %}{{ s.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                <td>{{ a.total_price }} BYN</td>
+                <td>
+                    <form method="post" action="{% url 'delete_appointment' a.pk %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Отклонить/удалить запись?');">Отклонить</button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="7">Нет записей</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 

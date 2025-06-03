@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Создать профиль клиента{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Создать профиль клиента</h1>
+    {% if messages %}
+    <div class="mb-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Создать профиль</button>
+    </form>
+</div>
+{% endblock %} 

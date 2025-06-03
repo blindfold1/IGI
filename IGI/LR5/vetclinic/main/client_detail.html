@@ -1,0 +1,13 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<h2>Профиль клиента</h2>
+<ul>
+    <li><b>Имя пользователя:</b> {{ client.user.username }}</li>
+    <li><b>ФИО:</b> {{ client.user.get_full_name }}</li>
+    <li><b>Дата рождения:</b> {{ client.birth_date }}</li>
+    <li><b>Адрес:</b> {{ client.address }}</li>
+    <li><b>Телефон:</b> {{ client.phone }}</li>
+</ul>
+<a href="{% url 'client_edit' %}">Редактировать</a> |
+<a href="{% url 'client_delete' %}">Удалить профиль</a>
+{% endblock %} 

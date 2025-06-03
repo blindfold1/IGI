@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Дата и время{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Дата и время</h1>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Текущее время (локальное)</h5>
+                    <p class="card-text">{{ now_local|date:"d/m/Y H:i:s" }} ({{ now_local.tzinfo }})</p>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Текущее время (UTC)</h5>
+                    <p class="card-text">{{ now_utc|date:"d/m/Y H:i:s" }} (UTC)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Календарь ({{ now_local|date:"F Y" }})</h5>
+                    <pre style="font-family:monospace;">{{ calendar }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

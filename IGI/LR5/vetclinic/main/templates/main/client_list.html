@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Клиенты - Ветеринарная клиника{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Список клиентов</h1>
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="q" class="form-control" placeholder="Поиск по имени, фамилии или телефону" value="{{ query }}">
+        </div>
+        <div class="col-md-4">
+            <select name="sort" class="form-select">
+                <option value="name" {% if sort == 'name' %}selected{% endif %}>Сортировать по имени</option>
+                <option value="birth_date" {% if sort == 'birth_date' %}selected{% endif %}>Сортировать по дате рождения</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ФИО</th>
+                <th>Телефон</th>
+                <th>Адрес</th>
+                <th>Дата рождения</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr>
+                <td>{{ client.user.get_full_name }}</td>
+                <td>{{ client.phone }}</td>
+                <td>{{ client.address }}</td>
+                <td>{{ client.birth_date|date:"d.m.Y" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">Нет клиентов по вашему запросу.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 
